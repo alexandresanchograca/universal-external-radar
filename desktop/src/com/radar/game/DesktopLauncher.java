@@ -12,6 +12,6 @@ public class DesktopLauncher {
 		config.setTitle("Universal Game Radar");
 		config.setWindowedMode(800, 480);
 		config.useVsync(true);
-		new Lwjgl3Application(new GameRadarMain(), config);
+		new Lwjgl3Application(new GameRadar(), config);
 	}
 }
