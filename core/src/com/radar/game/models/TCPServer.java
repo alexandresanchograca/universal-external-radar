@@ -1,5 +1,6 @@
 package com.radar.game.models;
 
+import com.radar.game.GameRadar;
 import com.radar.game.models.actors.Player;
 
 import java.io.IOException;
@@ -18,10 +19,12 @@ public class TCPServer implements Runnable{
 
     private boolean closeServer;
     private List<Player> players;
+    private boolean clientConnected;
 
     public TCPServer(){
         players = new LinkedList<>();
         this.closeServer = false;
+        this.clientConnected = false;
     }
 
     @Override
@@ -43,9 +46,11 @@ public class TCPServer implements Runnable{
             try {
                 srvSocket.setSoTimeout(5000);
                 clientConnection = srvSocket.accept();
+                clientConnected = true;
             }
             catch (SocketTimeoutException e){
                 System.out.println("No Incoming connections...");
+                clientConnected = false;
                 srvSocket.close();
                 continue;
             }
@@ -114,6 +119,10 @@ public class TCPServer implements Runnable{
 
     public void closeServer(){
         closeServer = true;
+    }
+
+    public boolean isClientConnected(){
+        return clientConnected;
     }
 
     public static void addMockData(List<Player> playerList){

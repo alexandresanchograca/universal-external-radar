@@ -3,10 +3,7 @@ package com.radar.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.radar.game.models.*;
-import com.radar.game.views.MenuView;
-import com.radar.game.views.OptionsView;
-import com.radar.game.views.Radar2DView;
-import com.radar.game.views.Radar3DView;
+import com.radar.game.views.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +17,7 @@ public class GameRadar extends Game {
 
 
     public enum Component {
-        MENU, RADAR_2D, RADAR_3D, OPTIONS;
+        MENU, RADAR_2D, RADAR_3D, OPTIONS, LOADING;
     }
 
     @Override
@@ -38,8 +35,9 @@ public class GameRadar extends Game {
         //Creating the views
         this.viewsMap = createViewMap();
 
-        //Our first screen will be the menu
-        this.setScreen( viewsMap.get(Component.MENU) );
+        //We set the first screen we want to show
+        this.setScreen( viewsMap.get(Component.LOADING) );
+        //this.setScreen( viewsMap.get(Component.MENU) );
     }
 
     private Map<Component, Screen> createViewMap(){
@@ -48,6 +46,7 @@ public class GameRadar extends Game {
         viewsMap.put(Component.RADAR_2D, new Radar2DView(this, radar2DApp ));
         viewsMap.put(Component.RADAR_3D, new Radar3DView(this, radar3DApp ));
         viewsMap.put(Component.OPTIONS, new OptionsView(this));
+        viewsMap.put(Component.LOADING, new LoadingView(this));
         return viewsMap;
     }
 
@@ -58,6 +57,10 @@ public class GameRadar extends Game {
 
     public void changeView(Component option){
         setScreen( viewsMap.get(option) );
+    }
+
+    public boolean isClientConnected(){
+        return tcpServer.isClientConnected();
     }
 
     @Override
