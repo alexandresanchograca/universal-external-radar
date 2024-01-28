@@ -93,7 +93,14 @@ public class TCPServer implements Runnable{
 
             byte[] playerData = new byte[chunk];
             bb.get(playerData, 0, playerData.length);
-            players.add( new Player( playerData ) );
+
+            Player player = new Player(playerData);
+
+            if(player.isLocalPlayer()){
+                continue;
+            }
+
+            players.add( player );
         }
 
         addMockData(players);
