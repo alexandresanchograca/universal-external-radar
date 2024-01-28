@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.radar.game.AppSettings;
 import com.radar.game.GameRadar;
 import com.radar.game.controllers.KeyboardController;
+import com.radar.game.models.Radar2DApp;
 import com.radar.game.models.RadarModel;
 
 public class Radar2DView implements Screen {
@@ -21,12 +22,12 @@ public class Radar2DView implements Screen {
     private OrthographicCamera camera;
     private ShapeRenderer shape;
     private final GameRadar game;
-    private RadarModel model;
+    private Radar2DApp model;
     private float radarScale;
     private KeyboardController controller;
 
 
-    public Radar2DView(GameRadar parent, RadarModel model){
+    public Radar2DView(GameRadar parent, Radar2DApp model){
         this.game = parent;
         this.model = model;
         this.shape = new ShapeRenderer();

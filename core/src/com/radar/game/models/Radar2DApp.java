@@ -1,6 +1,7 @@
 package com.radar.game.models;
 
 import com.radar.game.GameRadar;
+import com.radar.game.models.actors.LocalPlayer;
 import com.radar.game.models.actors.Player;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public class Radar2DApp implements RadarModel {
     }
 
     @Override
-    public Player getLocalPlayer() {
-        return tcpServer.getPlayers().get(0); //First is always the local player
+    public LocalPlayer getLocalPlayer() {
+        return (LocalPlayer)tcpServer.getPlayers().get(0); //First is always the local player
     }
 
     @Override
@@ -23,7 +24,6 @@ public class Radar2DApp implements RadarModel {
         return tcpServer.getPlayers();
     }
 
-    @Override
     public float[][] getPlayersScreenPos(float radarScale, float screenCenterX, float screenCenterY) {
         List<Player> players = getPlayers();
         Player localPlayer = players.removeFirst();
@@ -31,14 +31,14 @@ public class Radar2DApp implements RadarModel {
         float[][] screenPosArr = new float[players.size()][2];
 
         for(int i = 0; i < screenPosArr.length; i++){
-            worldToScreen(localPlayer, players.get(i), screenPosArr[i], radarScale, screenCenterX, screenCenterY);
+            WorldToScreen(localPlayer, players.get(i), screenPosArr[i], radarScale, screenCenterX, screenCenterY);
         }
 
         return screenPosArr;
     }
 
     //Pass by reference for better performance
-    private boolean worldToScreen(Player localPlayer, Player player, float[] outScreenValue, float radarScale, float screenCenterX, float screenCenterY){
+    private boolean WorldToScreen(Player localPlayer, Player player, float[] outScreenValue, float radarScale, float screenCenterX, float screenCenterY){
         //Calculating position
         double relPosX = (localPlayer.getLocation_x() - player.getLocation_x()) / radarScale; //Converting to meters
         double relPosY = (localPlayer.getLocation_y() - player.getLocation_y()) / radarScale;

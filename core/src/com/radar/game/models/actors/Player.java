@@ -12,16 +12,16 @@ public class Player{
     public Player(){
     }
 
-    private double location_x;
-    private double location_y;
-    private double location_z;
-    private double rotation_x;
-    private double rotation_y;
-    private double rotation_z;
-    private long local_player;
+    protected double location_x;
+    protected double location_y;
+    protected double location_z;
+    protected double rotation_x;
+    protected double rotation_y;
+    protected double rotation_z;
+    protected long local_player;
 
 
-    private void serializeMe(byte[] playerData){
+    protected void serializeMe(byte[] playerData){
         ByteBuffer bb = ByteBuffer.wrap(playerData);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         this.location_x = bb.getDouble();
@@ -30,7 +30,7 @@ public class Player{
         this.rotation_x = bb.getDouble();
         this.rotation_y = bb.getDouble();
         this.rotation_z = bb.getDouble();
-        this.local_player = bb.getInt();
+        this.local_player = bb.getLong();
     }
 
 

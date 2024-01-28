@@ -1,6 +1,7 @@
 package com.radar.game.models;
 
 import com.radar.game.GameRadar;
+import com.radar.game.models.actors.LocalPlayer;
 import com.radar.game.models.actors.Player;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.radar.game.AppSettings.*;
 
 public class TCPServer implements Runnable{
 
@@ -58,7 +61,7 @@ public class TCPServer implements Runnable{
             OutputStream out = clientConnection.getOutputStream();
             InputStream in = clientConnection.getInputStream();
 
-            byte[] packetData = new byte[6528];
+            byte[] packetData = new byte[PACKET_SIZE];
             int result = in.read(packetData, 0, packetData.length);
 
             if(result > 0) {
@@ -75,9 +78,8 @@ public class TCPServer implements Runnable{
     private static List<Player> dataToPlayers(byte[] packetData) {
         List<Player> players = new LinkedList<>();
 
-        int start = 0;
-        final int chunk = 56; //Player Data Size
-        final int chunkSize = 101; //MaxPlayers
+        final int chunk = PLAYER_SIZE - 8; //PlayerSize - drawLocal
+        final int localChunk = LOCAL_PLAYER_SIZE - 8;
 
         StringBuilder str = new StringBuilder();
         ByteBuffer bb = ByteBuffer.wrap(packetData);
@@ -85,11 +87,11 @@ public class TCPServer implements Runnable{
 
         //First in the packet is our local_player
         long drawLocal = bb.getLong();
-        byte[] localPlayerData = new byte[chunk];
+        byte[] localPlayerData = new byte[localChunk];
         bb.get(localPlayerData, 0, localPlayerData.length);
-        players.add( new Player( localPlayerData ) );
+        players.add( new LocalPlayer( localPlayerData ) );
 
-        for (int i = 0; i < chunkSize; i++) {
+        for (int i = 0; i < PLAYER_MAX_COUNT; i++) {
             long toDraw = bb.getLong();
 
             if(toDraw != 1){
