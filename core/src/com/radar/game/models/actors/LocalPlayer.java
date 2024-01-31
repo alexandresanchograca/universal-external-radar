@@ -14,20 +14,12 @@ public class LocalPlayer extends Player{
     }
 
     @Override
-    protected void serializeMe(byte[] playerData) {
-        ByteBuffer bb = ByteBuffer.wrap(playerData);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        super.draw = bb.getLong();
+    protected ByteBuffer serializeMe(byte[] playerData) {
+        ByteBuffer bb = super.serializeMe(playerData);
         this.camera_location_x = bb.getDouble();
         this.camera_location_y = bb.getDouble();
         this.camera_location_z = bb.getDouble();
-        super.location_x = bb.getDouble();
-        super.location_y = bb.getDouble();
-        super.location_z = bb.getDouble();
-        super.rotation_x = bb.getDouble();
-        super.rotation_y = bb.getDouble();
-        super.rotation_z = bb.getDouble();
-        super.local_player = bb.getLong();
+        return bb;
     }
 
     public double getCamera_location_x() {

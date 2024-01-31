@@ -22,7 +22,7 @@ public class Player{
     protected long local_player;
 
 
-    protected void serializeMe(byte[] playerData){
+    protected ByteBuffer serializeMe(byte[] playerData){
         ByteBuffer bb = ByteBuffer.wrap(playerData);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         this.draw = bb.getLong();
@@ -33,6 +33,7 @@ public class Player{
         this.rotation_y = bb.getDouble();
         this.rotation_z = bb.getDouble();
         this.local_player = bb.getLong();
+        return bb;
     }
 
 
