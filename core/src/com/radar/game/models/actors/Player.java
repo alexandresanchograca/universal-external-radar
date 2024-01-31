@@ -12,6 +12,7 @@ public class Player{
     public Player(){
     }
 
+    protected long draw;
     protected double location_x;
     protected double location_y;
     protected double location_z;
@@ -24,6 +25,7 @@ public class Player{
     protected void serializeMe(byte[] playerData){
         ByteBuffer bb = ByteBuffer.wrap(playerData);
         bb.order(ByteOrder.LITTLE_ENDIAN);
+        this.draw = bb.getLong();
         this.location_x = bb.getDouble();
         this.location_y = bb.getDouble();
         this.location_z = bb.getDouble();
@@ -88,6 +90,10 @@ public class Player{
 
     public void setLocal_player(long local_player) {
         this.local_player = local_player;
+    }
+
+    public boolean toDraw() {
+        return draw == 1;
     }
 
     @Override

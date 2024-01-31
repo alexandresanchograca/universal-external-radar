@@ -78,40 +78,26 @@ public class TCPServer implements Runnable{
     private static List<Player> dataToPlayers(byte[] packetData) {
         List<Player> players = new LinkedList<>();
 
-        final int chunk = PLAYER_SIZE - 8; //PlayerSize - drawLocal
-        final int localChunk = LOCAL_PLAYER_SIZE - 8;
-
-        StringBuilder str = new StringBuilder();
         ByteBuffer bb = ByteBuffer.wrap(packetData);
         bb.order(ByteOrder.LITTLE_ENDIAN);
 
         //First in the packet is our local_player
-        long drawLocal = bb.getLong();
-        byte[] localPlayerData = new byte[localChunk];
+        byte[] localPlayerData = new byte[LOCAL_PLAYER_SIZE];
         bb.get(localPlayerData, 0, localPlayerData.length);
         players.add( new LocalPlayer( localPlayerData ) );
 
         for (int i = 0; i < PLAYER_MAX_COUNT; i++) {
-            long toDraw = bb.getLong();
-
-            if(toDraw != 1){
-                break;
-            }
-
-            byte[] playerData = new byte[chunk];
+            byte[] playerData = new byte[PLAYER_SIZE];
             bb.get(playerData, 0, playerData.length);
 
             Player player = new Player(playerData);
 
-            if(player.isLocalPlayer()){
+            if(player.isLocalPlayer() || player.toDraw()){
                 continue;
             }
 
             players.add( player );
         }
-
-        addMockData(players);
-
         return players;
     }
 
@@ -125,16 +111,5 @@ public class TCPServer implements Runnable{
 
     public boolean isClientConnected(){
         return clientConnected;
-    }
-
-    public static void addMockData(List<Player> playerList){
-
-        Player player = new Player();
-        player.setLocal_player(0);
-        player.setLocation_x(-400983.64896542736);
-        player.setLocation_y(131330.49495841592);
-        player.setLocation_z(-1739.4436520681136);
-
-        playerList.add(player);
     }
 }

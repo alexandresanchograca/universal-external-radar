@@ -15,7 +15,6 @@ public class GameRadar extends Game {
     private  Radar3DApp radar3DApp;
     private Map<Component, Screen> viewsMap;
 
-
     public enum Component {
         MENU, RADAR_2D, RADAR_3D, OPTIONS, LOADING;
     }
@@ -37,7 +36,6 @@ public class GameRadar extends Game {
 
         //We set the first screen we want to show
         this.setScreen( viewsMap.get(Component.LOADING) );
-        //this.setScreen( viewsMap.get(Component.MENU) );
     }
 
     private Map<Component, Screen> createViewMap(){

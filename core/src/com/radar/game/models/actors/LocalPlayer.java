@@ -9,10 +9,6 @@ public class LocalPlayer extends Player{
     protected double camera_location_y;
     protected double camera_location_z;
 
-    protected double camera_location_xx;
-    protected double camera_location_yx;
-    protected double camera_location_zx;
-
     public LocalPlayer(byte[] playerData){
         serializeMe(playerData);
     }
@@ -21,6 +17,7 @@ public class LocalPlayer extends Player{
     protected void serializeMe(byte[] playerData) {
         ByteBuffer bb = ByteBuffer.wrap(playerData);
         bb.order(ByteOrder.LITTLE_ENDIAN);
+        super.draw = bb.getLong();
         this.camera_location_x = bb.getDouble();
         this.camera_location_y = bb.getDouble();
         this.camera_location_z = bb.getDouble();

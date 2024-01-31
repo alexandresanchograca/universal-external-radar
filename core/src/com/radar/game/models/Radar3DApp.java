@@ -5,7 +5,6 @@ import com.radar.game.GameRadar;
 import com.radar.game.models.actors.LocalPlayer;
 import com.radar.game.models.actors.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.radar.game.AppSettings.PLAYER_HEIGHT;
@@ -76,9 +75,6 @@ public class Radar3DApp implements RadarModel {
         double cameraFovAngle = Math.tan( 90 * Math.PI / 360.0 ); //Depends on your settings
         float screenCenterX = screenWidth / 2.0f;
         float screenCenterY = screenHeight / 2.0f;
-
-        double foo = screenCenterX + vTransform.x * (screenCenterX / Math.tan( cameraFovAngle )) / vTransform.z;
-
 
         outScreenValue[0] = (float)(screenCenterX + vTransform.x * (screenCenterX / cameraFovAngle ) / vTransform.z);
         outScreenValue[1] = (float)(screenCenterY - vTransform.y * (screenCenterX / cameraFovAngle ) / vTransform.z);
