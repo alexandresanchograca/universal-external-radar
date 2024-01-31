@@ -1,7 +1,7 @@
 # universal-external-radar
 
 A simple java based 2D and 3D radar using libdgx. 
-Made as an external companion application to a single-player games. 
+Made as an external companion application to single-player games. 
 
 You can stream location data of objects to the application and render it in a 2D or 3D way and change the scale of which they are displayed.
 
